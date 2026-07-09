@@ -243,10 +243,38 @@ function readRawField(fields, aliases) {
     normalized: normalizeFieldName(key),
   }));
 
+  const normalizedAliasList = aliases
+    .map(normalizeFieldName)
+    .filter(Boolean)
+    .sort((left, right) => right.length - left.length);
+
+  for (const normalizedAlias of normalizedAliasList) {
+    const containingAlias = normalizedFieldEntries
+      .filter(({ normalized }) => normalized.includes(normalizedAlias))
+      .sort((left, right) => left.normalized.length - right.normalized.length);
+
+    if (containingAlias.length > 0) {
+      return fields[containingAlias[0].key];
+    }
+  }
+
+  for (const normalizedAlias of normalizedAliasList) {
+    const reverseFuzzyMatches = normalizedFieldEntries
+      .filter(({ normalized }) => (
+        normalizedAlias.includes(normalized) &&
+        normalized.length / normalizedAlias.length >= 0.8
+      ))
+      .sort((left, right) => right.normalized.length - left.normalized.length);
+
+    if (reverseFuzzyMatches.length > 0) {
+      return fields[reverseFuzzyMatches[0].key];
+    }
+  }
+
   for (const alias of aliases) {
     const normalizedAlias = normalizeFieldName(alias);
     const fuzzyField = normalizedFieldEntries.find(({ normalized }) => (
-      normalized.includes(normalizedAlias) || normalizedAlias.includes(normalized)
+      normalized === normalizedAlias
     ));
     if (fuzzyField) return fields[fuzzyField.key];
   }
