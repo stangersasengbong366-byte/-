@@ -329,7 +329,7 @@ function bySortOrder(a, b) {
 }
 
 function requiredEnv(name) {
-  const value = Netlify.env.get(name);
+  const value = globalThis.Netlify?.env?.get?.(name) || process.env[name];
   if (!value) throw new Error(`缺少环境变量：${name}`);
   return value;
 }
