@@ -195,6 +195,14 @@
       vertical-align: middle;
     }
 
+    .pill.youdao-pill {
+      padding: 5px 11px;
+      color: #ff6a00;
+      font-size: .6em;
+      font-weight: 950;
+      box-shadow: 0 3px 8px rgba(255, 255, 255, .18);
+    }
+
     .row-title {
       width: 12.5%;
       font-weight: 900;
@@ -227,6 +235,11 @@
       color: #fff;
       background: linear-gradient(90deg, #ff8b17, #ff4e00);
       font-size: .78em;
+      font-weight: 900;
+    }
+
+    .only-video::before {
+      content: "☝ ";
       font-weight: 900;
     }
 
@@ -1109,7 +1122,9 @@
       const headCells = [
         "<th>对比项</th>",
         ...products.map((product) => {
-          const badge = product.badge ? `<span class="pill">${escapeHtml(product.badge)}</span>` : "";
+          const badge = product.isYoudao
+            ? `<span class="pill youdao-pill">高性价比</span>`
+            : "";
           const className = product.isYoudao ? " class=\"youdao-head\"" : "";
           return `<th${className}>${escapeHtml(product.brand)} ${badge}</th>`;
         }),
@@ -1128,7 +1143,7 @@
       const classes = [product.isYoudao ? "youdao-col" : "", isStrong ? "youdao-strong" : ""].filter(Boolean).join(" ");
       const thumbsUp = product.isYoudao && row.highlight ? '<span class="thumb">👍</span>' : "";
       const contentBadge = product.isYoudao && row.key === "productContent" && product.contentBadge
-        ? `<br><span class="only-video">${escapeHtml(product.contentBadge)}</span>`
+        ? `<br><span class="only-video">唯一含知识视频</span>`
         : "";
       return `<td${classes ? ` class="${classes}"` : ""}>${escapeHtml(value)}${contentBadge}${thumbsUp}</td>`;
     }
