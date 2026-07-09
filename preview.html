@@ -955,8 +955,8 @@
       { label: "单科总课时量\n（直播加视频）", key: "totalClassHours", strongYoudao: true },
       { label: "单科价格", key: "singleSubjectPrice", strongYoudao: true },
       { label: "单科价格 / 每课时", key: "singleSubjectHourlyPrice", highlight: true, strongYoudao: true },
-      { label: "联报价格", key: "comboPrice", strongYoudao: true },
-      { label: "联报价格 / 每课时", key: "comboHourlyPrice", highlight: true, strongYoudao: true },
+      { label: "3科联报价格", key: "comboPrice", strongYoudao: true },
+      { label: "3科联报价格 / 每课时", key: "comboHourlyPrice", highlight: true, strongYoudao: true },
     ];
 
     const params = new URLSearchParams(window.location.search);
@@ -1063,7 +1063,7 @@
         price_advantage: withFallbackBlock(blocks.price_advantage, {
           label: "B",
           title: "价格优势",
-          headline: `单科每课时 ${singlePrice} 元，\n联报每课时仅 ${comboPrice} 元；`,
+          headline: `单科每课时 ${singlePrice} 元，\n3科联报每课时仅 ${comboPrice} 元；`,
           items: [
             "在主流竞品中兼顾价格优势与内容完整度；",
             `不仅有直播，更额外配备${videoCount}节知识视频。`,
@@ -1101,7 +1101,7 @@
           slogan: CHOICE_SLOGAN,
           priceRows: [
             { name: "单科每课时", value: singlePrice, unit: "元" },
-            { name: "联报每课时", value: comboPrice, unit: "元" },
+            { name: "3科联报每课时", value: comboPrice, unit: "元" },
           ],
         }),
       };
@@ -1176,7 +1176,10 @@
       setText("priceTitle", block.title || "价格优势");
 
       const hourlyPrices = getYoudaoHourlyPrices(youdao);
-      const headline = `单科每课时 ${hourlyPrices.single} 元，\n联报每课时仅 ${hourlyPrices.combo} 元；`;
+      const headline = [
+        buildPriceSentence("单科每课时", hourlyPrices.single),
+        buildPriceSentence("3科联报每课时仅", hourlyPrices.combo),
+      ].join("，\n") + "；";
       document.getElementById("priceHeadline").innerHTML = emphasizeNumbers(headline);
 
       document.getElementById("priceItems").innerHTML = normalizeItems(block.items).map((item) => (
@@ -1207,13 +1210,13 @@
 
       const priceRows = [
         { name: "单科每课时", value: hourlyPrices.single, unit: "元" },
-        { name: "联报每课时", value: hourlyPrices.combo, unit: "元" },
+        { name: "3科联报每课时", value: hourlyPrices.combo, unit: "元" },
       ];
 
       document.getElementById("choicePriceRows").innerHTML = priceRows.map((row) => `
         <div class="price-row">
           <div class="name">${escapeHtml(row.name || "")}</div>
-          <div class="value"><span class="big">${escapeHtml(row.value || "-")}</span><span class="yuan">${escapeHtml(row.unit || "元")}</span></div>
+          <div class="value">${formatChoicePriceValue(row.value, row.unit || "元")}</div>
         </div>
       `).join("");
     }
@@ -1271,6 +1274,24 @@
         single: getText(youdao?.singleSubjectHourlyPrice, "-"),
         combo: getText(youdao?.comboHourlyPrice, "-"),
       };
+    }
+
+    function buildPriceSentence(prefix, value) {
+      const text = getText(value, "-");
+      return isNumericPrice(text) ? `${prefix} ${text} 元` : `${prefix} ${text}`;
+    }
+
+    function formatChoicePriceValue(value, unit) {
+      const text = getText(value, "-");
+      if (!isNumericPrice(text)) {
+        return `<span class="big" style="font-size: clamp(24px, 2.2vw, 36px); line-height: 1.2; letter-spacing: 0; text-align: center;">${escapeHtml(text)}</span>`;
+      }
+
+      return `<span class="big">${escapeHtml(text)}</span><span class="yuan">${escapeHtml(unit)}</span>`;
+    }
+
+    function isNumericPrice(value) {
+      return /^\d+(?:\.\d+)?$/.test(String(value || "").trim());
     }
 
     function emphasizeNumbers(text) {
