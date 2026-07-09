@@ -964,7 +964,11 @@
     async function loadData() {
       setLoading(currentGrade);
       try {
-        const response = await fetch(`/api/competitor?grade=${encodeURIComponent(currentGrade)}`);
+        const version = params.get("v") || String(Date.now());
+        const response = await fetch(
+          `/api/competitor?grade=${encodeURIComponent(currentGrade)}&v=${encodeURIComponent(version)}`,
+          { cache: "no-store" }
+        );
         if (!response.ok) throw new Error("request failed");
         const data = await response.json();
         if (!Array.isArray(data.products) || data.products.length === 0) throw new Error("empty data");
@@ -1156,7 +1160,8 @@
       setText("priceLabel", block.label || "B");
       setText("priceTitle", block.title || "价格优势");
 
-      const headline = block.headline || `单科每课时 ${getText(youdao.singleSubjectHourlyPrice, "-")} 元，\n联报每课时仅 ${getText(youdao.comboHourlyPrice, "-")} 元；`;
+      const hourlyPrices = getYoudaoHourlyPrices(youdao);
+      const headline = `单科每课时 ${hourlyPrices.single} 元，\n联报每课时仅 ${hourlyPrices.combo} 元；`;
       document.getElementById("priceHeadline").innerHTML = emphasizeNumbers(headline);
 
       document.getElementById("priceItems").innerHTML = normalizeItems(block.items).map((item) => (
@@ -1181,13 +1186,13 @@
 
     function renderChoicePanel(block = {}, grade, youdao) {
       const slogan = CHOICE_SLOGAN;
+      const hourlyPrices = getYoudaoHourlyPrices(youdao);
       setText("choiceTitle", block.title || `有道领世\n${grade}性价比之选！`);
       document.getElementById("choiceSlogan").innerHTML = formatChoiceSlogan(slogan);
 
-      const rows = normalizePriceRows(block.priceRows);
-      const priceRows = rows.length ? rows : [
-        { name: "单科每课时", value: getText(youdao.singleSubjectHourlyPrice, "-"), unit: "元" },
-        { name: "联报每课时", value: getText(youdao.comboHourlyPrice, "-"), unit: "元" },
+      const priceRows = [
+        { name: "单科每课时", value: hourlyPrices.single, unit: "元" },
+        { name: "联报每课时", value: hourlyPrices.combo, unit: "元" },
       ];
 
       document.getElementById("choicePriceRows").innerHTML = priceRows.map((row) => `
@@ -1246,6 +1251,13 @@
       }).filter((row) => row.name || row.value);
     }
 
+    function getYoudaoHourlyPrices(youdao) {
+      return {
+        single: getText(youdao?.singleSubjectHourlyPrice, "-"),
+        combo: getText(youdao?.comboHourlyPrice, "-"),
+      };
+    }
+
     function emphasizeNumbers(text) {
       return escapeHtml(text).replace(/(\d+(?:\.\d+)?)/g, '<span class="num">$1</span>');
     }
@@ -1263,7 +1275,7 @@
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
-        .replace(/\"/g, "&quot;")
+        .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
     }
   </script>
