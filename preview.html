@@ -41,7 +41,7 @@
     }
 
     .poster {
-      width: min(1760px, 100%);
+      width: min(1880px, 100%);
       margin: 0 auto;
       position: relative;
     }
@@ -129,19 +129,55 @@
       box-shadow: 0 6px 14px rgba(255, 92, 0, .18);
     }
 
+    .page-tools {
+      display: flex;
+      justify-content: center;
+      margin: 0 0 12px;
+    }
+
+    .download-btn {
+      border: 0;
+      border-radius: 999px;
+      min-height: 38px;
+      padding: 0 18px;
+      color: #fff;
+      background: linear-gradient(180deg, #2d83ff, #1665ea);
+      box-shadow: 0 8px 18px rgba(18, 98, 228, .18);
+      font: inherit;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(18, 98, 228, .22);
+    }
+
+    .download-btn:disabled {
+      cursor: wait;
+      opacity: .7;
+      transform: none;
+      box-shadow: 0 8px 18px rgba(18, 98, 228, .14);
+    }
+
     .comparison-card {
       background: rgba(255,255,255,.82);
       border: 1px solid #d8e7ff;
       border-radius: 16px;
       box-shadow: var(--shadow);
-      overflow: hidden;
+      overflow-x: auto;
+      overflow-y: hidden;
     }
 
     table {
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      table-layout: fixed;
+      min-width: 1540px;
+      table-layout: auto;
       font-size: clamp(13px, .98vw, 18px);
     }
 
@@ -150,10 +186,27 @@
       border-bottom: 1px solid var(--line);
       text-align: center;
       vertical-align: middle;
-      padding: 8px 10px;
+      padding: 10px 14px;
       line-height: 1.35;
       font-weight: 650;
       white-space: pre-line;
+    }
+
+    .product-content-row td {
+      padding-top: 14px;
+      padding-bottom: 14px;
+    }
+
+    .product-content-row .row-title {
+      vertical-align: middle;
+    }
+
+    .product-content-cell {
+      font-size: clamp(14px, .95vw, 17px);
+      line-height: 1.6;
+      letter-spacing: 0;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
     th:last-child, td:last-child { border-right: none; }
@@ -169,7 +222,8 @@
 
     thead th:first-child {
       background: linear-gradient(180deg, #2b77ff, #1250cf);
-      width: 12.5%;
+      width: 13%;
+      min-width: 170px;
     }
 
     thead th.youdao-head {
@@ -204,10 +258,16 @@
     }
 
     .row-title {
-      width: 12.5%;
+      width: 13%;
+      min-width: 170px;
       font-weight: 900;
       background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
       color: #061a3d;
+    }
+
+    thead th:not(:first-child),
+    tbody td:not(.row-title) {
+      min-width: 165px;
     }
 
     .youdao-col {
@@ -275,6 +335,159 @@
       font-size: 12px;
       font-weight: 900;
       flex: 0 0 auto;
+    }
+
+    .gift-summary-text {
+      display: inline-block;
+      color: #243a63;
+      font-size: clamp(12px, .86vw, 15px);
+      font-weight: 800;
+      line-height: 1.45;
+      text-wrap: balance;
+    }
+
+    .gift-summary-text.is-empty {
+      color: #7b89a4;
+      font-weight: 700;
+    }
+
+    .gift-detail-panel {
+      margin-top: 16px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid #d8e6ff;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .gift-detail-panel summary {
+      list-style: none;
+    }
+
+    .gift-detail-panel summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .gift-detail-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px;
+      color: #fff;
+      background: linear-gradient(180deg, #4c95ff, #1364e9);
+      font-size: clamp(15px, 1vw, 20px);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .gift-detail-head-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .gift-detail-head-copy {
+      font-size: clamp(12px, .84vw, 14px);
+      font-weight: 800;
+      color: rgba(255,255,255,.92);
+      line-height: 1.4;
+      text-align: right;
+    }
+
+    .gift-detail-arrow {
+      font-size: 16px;
+      line-height: 1;
+      transition: transform .2s ease;
+      flex: 0 0 auto;
+    }
+
+    .gift-detail-panel[open] .gift-detail-arrow {
+      transform: rotate(180deg);
+    }
+
+    .gift-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      padding: 16px;
+      align-items: start;
+    }
+
+    .gift-brand-card {
+      background: linear-gradient(180deg, #f8fbff, #ffffff);
+      border: 1px solid #dfebff;
+      border-radius: 14px;
+      box-shadow: 0 8px 18px rgba(11, 94, 218, 0.08);
+      overflow: hidden;
+    }
+
+    .gift-brand-card.youdao {
+      border-color: #ffd8b1;
+      box-shadow: 0 10px 20px rgba(255, 106, 0, 0.10);
+    }
+
+    .gift-brand-summary {
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid #eaf1ff;
+    }
+
+    .gift-brand-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 8px;
+      font-size: clamp(15px, .98vw, 18px);
+      font-weight: 900;
+      color: #0d2a57;
+    }
+
+    .gift-brand-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #fff3e7;
+      color: #ff6a00;
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .gift-brand-desc {
+      color: #4b5e81;
+      font-size: clamp(12px, .84vw, 14px);
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .gift-detail-body {
+      padding: 14px 16px 16px;
+    }
+
+    .gift-detail-raw {
+      margin: 0;
+      color: #253d68;
+      font-size: clamp(12px, .84vw, 14px);
+      font-weight: 700;
+      line-height: 1.72;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .gift-detail-list {
+      margin: 0;
+      padding-left: 18px;
+      color: #253d68;
+      font-size: clamp(12px, .84vw, 14px);
+      font-weight: 700;
+      line-height: 1.65;
+    }
+
+    .gift-detail-list li + li {
+      margin-top: 6px;
     }
 
     .module-layout {
@@ -453,7 +666,15 @@
       text-wrap: balance;
     }
 
-    .price-copy .num { font-size: 1.45em; }
+    .price-copy .num {
+      font-size: 1.45em;
+      display: inline-block;
+    }
+
+    .price-copy .num-unit {
+      display: inline-block;
+      white-space: nowrap;
+    }
 
     .check-list {
       display: grid;
@@ -745,12 +966,14 @@
 
     .price-row .value {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: center;
       gap: 8px;
       color: #ff4b00;
       font-weight: 950;
       padding: 0 12px;
+      flex-wrap: wrap;
+      text-align: center;
     }
 
     .price-row .value .big {
@@ -762,6 +985,23 @@
     .price-row .value .yuan {
       font-size: clamp(20px, 1.3vw, 28px);
       margin-bottom: 10px;
+    }
+
+    .price-row .value.compound {
+      gap: 6px 8px;
+      align-content: center;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    .price-row .value .subnote {
+      flex-basis: 100%;
+      color: #ff5a00;
+      font-size: clamp(18px, 1.2vw, 26px);
+      line-height: 1.2;
+      letter-spacing: 0;
+      font-weight: 900;
+      margin-top: 2px;
     }
 
     .choice-slogan {
@@ -834,10 +1074,97 @@
       padding: 24px;
     }
 
+    .state-panel .state-title {
+      font-size: clamp(24px, 2.2vw, 34px);
+      line-height: 1.4;
+    }
+
+    .state-panel .state-desc {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: clamp(15px, 1.2vw, 20px);
+      font-weight: 700;
+      line-height: 1.7;
+    }
+
+    .state-panel .state-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      margin-top: 18px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #2d83ff, #1665ea);
+      box-shadow: 0 8px 18px rgba(18, 98, 228, .18);
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    body.exporting {
+      background: linear-gradient(180deg, #eef7ff 0%, #ffffff 48%, #f7fbff 100%) !important;
+    }
+
+    body.exporting .poster.export-capture {
+      box-sizing: border-box;
+      padding: 28px 32px 36px;
+    }
+
+    body.exporting .grade-switch,
+    body.exporting .page-tools {
+      display: none !important;
+    }
+
+    body.exporting .comparison-card,
+    body.exporting .panel,
+    body.exporting .service-panel,
+    body.exporting .price-box {
+      background: #ffffff !important;
+      box-shadow: none !important;
+    }
+
+    body.exporting .youdao-col {
+      background: linear-gradient(180deg, #fff4da 0%, #fffdfa 100%) !important;
+    }
+
+    body.exporting .highlight-row td {
+      background: #fff8e9 !important;
+    }
+
+    body.exporting .choice-panel {
+      background: linear-gradient(160deg, #ff9a1a 0%, #ff7a00 38%, #ff5a00 100%) !important;
+      box-shadow: none !important;
+    }
+
+    body.exporting .choice-panel::before,
+    body.exporting .choice-panel::after {
+      display: none !important;
+    }
+
+    body.exporting .choice-content,
+    body.exporting .choice-slogan,
+    body.exporting .choice-kicker,
+    body.exporting .label {
+      backdrop-filter: none !important;
+    }
+
+    body.exporting .choice-content {
+      background: rgba(255,255,255,.12) !important;
+      border-color: rgba(255,255,255,.22) !important;
+    }
+
+    body.exporting .choice-slogan {
+      background: rgba(255,255,255,.14) !important;
+      box-shadow: none !important;
+    }
+
     [hidden] { display: none !important; }
 
     @media (max-width: 1200px) {
       header { padding: 0 12px 12px; }
+      .gift-detail-grid { grid-template-columns: 1fr 1fr; }
       .module-layout { grid-template-columns: 1fr; }
       .content-grid { grid-template-columns: 1fr 1fr; }
       .service-flow { grid-template-columns: repeat(3, 1fr); }
@@ -848,6 +1175,9 @@
 
     @media (max-width: 720px) {
       .page { padding: 12px; }
+      .gift-detail-grid { grid-template-columns: 1fr; }
+      .gift-detail-head { align-items: flex-start; }
+      .gift-detail-head-copy { text-align: left; }
       .content-grid { grid-template-columns: 1fr; }
       .subtitle { gap: 10px; letter-spacing: 1px; }
       .subtitle::before, .subtitle::after { width: 40px; }
@@ -871,6 +1201,9 @@
           <button type="button" data-grade="新高二">新高二</button>
           <button type="button" data-grade="新高三">新高三</button>
         </nav>
+        <div class="page-tools" data-download-ignore>
+          <button type="button" class="download-btn" id="downloadPosterBtn">下载本页图片</button>
+        </div>
         <h1><span class="grade" id="pageGrade">【新高一】</span>各家高中产品性价比对比分析</h1>
         <div class="subtitle"><span id="subtitleText">价格更优 · 内容更全 · 学习闭环更完整</span><span class="dot"></span></div>
       </header>
@@ -939,14 +1272,23 @@
             <div class="choice-slogan" id="choiceSlogan"></div>
           </aside>
         </section>
+
+        <details class="gift-detail-panel" id="giftDetailPanel" hidden data-download-ignore>
+          <summary class="gift-detail-head">
+            <span class="gift-detail-head-main"><span class="label">赠</span><span>赠送详情</span></span>
+            <span class="gift-detail-head-copy">点击查看完整赠送内容 <span class="gift-detail-arrow">▾</span></span>
+          </summary>
+          <div class="gift-detail-grid" id="giftDetailGrid"></div>
+        </details>
       </section>
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
     const gradeOptions = ["新高一", "新高二", "新高三"];
     const CHOICE_SLOGAN = "有道领世产品，对应赠送政策解析课程、学科学情课程、教辅资料，了解详情联系学业规划师";
-    const tableRows = [
+    const baseTableRows = [
       { label: "班型名称", key: "className" },
       { label: "产品内容", key: "productContent" },
       { label: "直播课节数", key: "liveLessonCount", strongYoudao: true },
@@ -971,6 +1313,8 @@
         loadData();
       });
     });
+
+    document.getElementById("downloadPosterBtn").addEventListener("click", downloadCurrentPageImage);
 
     loadData();
 
@@ -1003,20 +1347,38 @@
     }
 
     function showError() {
-      document.getElementById("statePanel").textContent = "数据加载失败，请稍后刷新";
-      document.getElementById("statePanel").hidden = false;
+      const statePanel = document.getElementById("statePanel");
+      if (window.location.protocol === "file:") {
+        const previewUrl = `http://127.0.0.1:3001/preview.html?grade=${encodeURIComponent(currentGrade)}`;
+        statePanel.innerHTML = `
+          <div>
+            <div class="state-title">你现在是直接打开了本地文件</div>
+            <div class="state-desc">
+              这种方式看不到飞书实时数据。<br>
+              请双击文件夹里的“启动本地预览.command”，<br>
+              或直接打开下面这个本地预览地址。
+            </div>
+            <a class="state-link" href="${previewUrl}" target="_blank" rel="noreferrer">打开本地预览</a>
+          </div>
+        `;
+      } else {
+        statePanel.textContent = "数据加载失败，请稍后刷新";
+      }
+      statePanel.hidden = false;
       document.getElementById("contentRoot").hidden = true;
     }
 
     function renderPage(data) {
       const products = data.products;
       const blocks = data.advantageBlocks || {};
-      const youdao = products.find((product) => product.isYoudao) || products[0];
+      const youdao = pickPreferredYoudaoProduct(products) || products[0];
+      const giftDetails = buildGiftDetails(products);
       const resolvedBlocks = buildResolvedBlocks(data.grade, youdao, blocks);
 
       document.getElementById("pageGrade").textContent = `【${data.grade}】`;
       document.getElementById("subtitleText").textContent = "价格更优 · 内容更全 · 学习闭环更完整";
-      renderTable(products);
+      renderTable(products, giftDetails);
+      renderGiftDetails(giftDetails);
       renderNote(resolvedBlocks.note);
       renderComposition(resolvedBlocks.product_composition);
       renderPriceAdvantage(resolvedBlocks.price_advantage, youdao);
@@ -1027,6 +1389,30 @@
 
       document.getElementById("statePanel").hidden = true;
       document.getElementById("contentRoot").hidden = false;
+    }
+
+    function pickPreferredYoudaoProduct(products) {
+      const youdaoProducts = (Array.isArray(products) ? products : []).filter((product) => product?.isYoudao);
+      if (!youdaoProducts.length) return null;
+      if (youdaoProducts.length === 1) return youdaoProducts[0];
+
+      return youdaoProducts
+        .slice()
+        .sort((left, right) => {
+          const comboDiff = comparePriceValue(left?.comboHourlyPrice, right?.comboHourlyPrice);
+          if (comboDiff !== 0) return comboDiff;
+
+          const singleDiff = comparePriceValue(left?.singleSubjectHourlyPrice, right?.singleSubjectHourlyPrice);
+          if (singleDiff !== 0) return singleDiff;
+
+          const comboPriceDiff = comparePriceValue(left?.comboPrice, right?.comboPrice);
+          if (comboPriceDiff !== 0) return comboPriceDiff;
+
+          const singlePriceDiff = comparePriceValue(left?.singleSubjectPrice, right?.singleSubjectPrice);
+          if (singlePriceDiff !== 0) return singlePriceDiff;
+
+          return 0;
+        })[0];
     }
 
     function buildResolvedBlocks(grade, youdao, blocks) {
@@ -1118,7 +1504,12 @@
       };
     }
 
-    function renderTable(products) {
+    function renderTable(products, giftDetails) {
+      const tableRows = [...baseTableRows];
+      if (giftDetails.some((item) => item.hasGift)) {
+        tableRows.push({ label: "赠送亮点", key: "__giftSummary", dynamic: true, isGiftSummary: true });
+      }
+      tableRows.push(...buildDynamicRows(products));
       const headCells = [
         "<th>对比项</th>",
         ...products.map((product) => {
@@ -1133,19 +1524,70 @@
 
       document.getElementById("tableBody").innerHTML = tableRows.map((row) => {
         const cells = products.map((product) => renderProductCell(product, row));
-        return `<tr${row.highlight ? " class=\"highlight-row\"" : ""}><td class="row-title">${escapeHtml(row.label)}</td>${cells.join("")}</tr>`;
+        const rowClasses = [
+          row.highlight ? "highlight-row" : "",
+          row.key === "productContent" ? "product-content-row" : "",
+        ].filter(Boolean).join(" ");
+        return `<tr${rowClasses ? ` class="${rowClasses}"` : ""}><td class="row-title">${escapeHtml(row.label)}</td>${cells.join("")}</tr>`;
       }).join("");
     }
 
+    function buildDynamicRows(products) {
+      const seen = new Set();
+      const otherRows = [];
+
+      products.forEach((product) => {
+        const extraFields = Array.isArray(product.extraFields) ? product.extraFields : [];
+        extraFields.forEach((field) => {
+          if (!field?.key || seen.has(field.key)) {
+            return;
+          }
+
+          seen.add(field.key);
+          if (/赠|赠送|附赠|福利/.test(field.label || field.key || "")) {
+            return;
+          }
+
+          const row = {
+            label: field.label || field.key,
+            key: field.key,
+            dynamic: true,
+          };
+
+          otherRows.push(row);
+        });
+      });
+
+      return otherRows;
+    }
+
     function renderProductCell(product, row) {
-      const value = getText(product[row.key], "/");
+      const value = row.isGiftSummary
+        ? getGiftSummary(product)
+        : row.dynamic
+        ? getDynamicFieldValue(product, row.key)
+        : getText(product[row.key], "/");
       const isStrong = product.isYoudao && row.strongYoudao;
-      const classes = [product.isYoudao ? "youdao-col" : "", isStrong ? "youdao-strong" : ""].filter(Boolean).join(" ");
+      const classes = [
+        product.isYoudao ? "youdao-col" : "",
+        isStrong ? "youdao-strong" : "",
+        row.key === "productContent" ? "product-content-cell" : "",
+      ].filter(Boolean).join(" ");
       const thumbsUp = product.isYoudao && row.highlight ? '<span class="thumb">👍</span>' : "";
       const contentBadge = product.isYoudao && row.key === "productContent" && product.contentBadge
         ? `<br><span class="only-video">唯一含知识视频</span>`
         : "";
-      return `<td${classes ? ` class="${classes}"` : ""}>${escapeHtml(value)}${contentBadge}${thumbsUp}</td>`;
+      if (row.isGiftSummary) {
+        const summaryClass = value === "/" ? "gift-summary-text is-empty" : "gift-summary-text";
+        return `<td${classes ? ` class="${classes}"` : ""}><span class="${summaryClass}">${escapeHtml(value)}</span></td>`;
+      }
+      return `<td${classes ? ` class="${classes}"` : ""}>${formatTableText(value)}${contentBadge}${thumbsUp}</td>`;
+    }
+
+    function getDynamicFieldValue(product, fieldKey) {
+      const extraFields = Array.isArray(product?.extraFields) ? product.extraFields : [];
+      const matched = extraFields.find((field) => field.key === fieldKey);
+      return getText(matched?.value, "/");
     }
 
     function renderNote(block) {
@@ -1179,7 +1621,7 @@
       const headline = [
         buildPriceSentence("单科每课时", hourlyPrices.single),
         buildPriceSentence("3科联报每课时仅", hourlyPrices.combo),
-      ].join("，\n") + "；";
+      ].join("，\n");
       document.getElementById("priceHeadline").innerHTML = emphasizeNumbers(headline);
 
       document.getElementById("priceItems").innerHTML = normalizeItems(block.items).map((item) => (
@@ -1216,7 +1658,7 @@
       document.getElementById("choicePriceRows").innerHTML = priceRows.map((row) => `
         <div class="price-row">
           <div class="name">${escapeHtml(row.name || "")}</div>
-          <div class="value">${formatChoicePriceValue(row.value, row.unit || "元")}</div>
+          <div class="value${hasChoicePriceSubnote(row.value) ? " compound" : ""}">${formatChoicePriceValue(row.value, row.unit || "元")}</div>
         </div>
       `).join("");
     }
@@ -1240,6 +1682,86 @@
           ${escapeHtml(step.title || step.text || "")}
         </div>
       `).join("");
+    }
+
+    function renderGiftDetails(giftDetails) {
+      const panel = document.getElementById("giftDetailPanel");
+      const grid = document.getElementById("giftDetailGrid");
+      const visibleDetails = giftDetails.filter((item) => item.hasGift);
+
+      if (!visibleDetails.length) {
+        panel.hidden = true;
+        grid.innerHTML = "";
+        return;
+      }
+
+      grid.innerHTML = visibleDetails.map((item, index) => `
+        <article class="gift-brand-card${item.product.isYoudao ? " youdao" : ""}">
+          <div class="gift-brand-summary">
+            <h3 class="gift-brand-title">
+              <span>${escapeHtml(item.product.brand)}</span>
+              ${item.product.isYoudao ? '<span class="gift-brand-badge">重点权益</span>' : ""}
+            </h3>
+            <div class="gift-brand-desc">${escapeHtml(item.summary)}</div>
+          </div>
+          <div class="gift-detail-body">
+            <div class="gift-detail-raw">${formatMultilineText(item.rawText)}</div>
+          </div>
+        </article>
+      `).join("");
+
+      panel.open = false;
+      panel.hidden = false;
+    }
+
+    function buildGiftDetails(products) {
+      return products.map((product) => {
+        const giftFields = (Array.isArray(product.extraFields) ? product.extraFields : []).filter((field) => /赠|赠送|附赠|福利/.test(field.label || field.key || ""));
+        const rawText = giftFields
+          .map((field) => getText(field.value, "").replace(/\r/g, "\n").trim())
+          .filter(Boolean)
+          .join("\n\n");
+        const count = countGiftItems(rawText);
+
+        return {
+          product,
+          hasGift: Boolean(rawText),
+          rawText,
+          summary: buildGiftSummary(count),
+        };
+      });
+    }
+
+    function getGiftSummary(product) {
+      const detail = buildGiftDetails([product])[0];
+      return detail?.hasGift ? detail.summary : "/";
+    }
+
+    function countGiftItems(value) {
+      const text = String(value || "").replace(/\r/g, "\n");
+      const lines = text
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean);
+
+      const numberedLines = lines.filter((line) => /^(?:\d+[、.．）)]|[①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮]|[-•●■◆])\s*/.test(line));
+      return numberedLines.length;
+    }
+
+    function buildGiftSummary(count) {
+      if (!count) return "/";
+      return `${count}项赠送`;
+    }
+
+    function formatMultilineText(value) {
+      return escapeHtml(value).replace(/\n/g, "<br>");
+    }
+
+    function formatTableText(value) {
+      return escapeHtml(String(value ?? ""))
+        .replace(/\\n/g, "<br>")
+        .replace(/\/n/g, "<br>")
+        .replace(/\n/g, "<br>");
     }
 
     function normalizeItems(items) {
@@ -1276,6 +1798,25 @@
       };
     }
 
+    function comparePriceValue(left, right) {
+      const leftNumber = parsePriceNumber(left);
+      const rightNumber = parsePriceNumber(right);
+
+      if (leftNumber === null && rightNumber === null) return 0;
+      if (leftNumber === null) return 1;
+      if (rightNumber === null) return -1;
+      return leftNumber - rightNumber;
+    }
+
+    function parsePriceNumber(value) {
+      const text = String(value || "").trim();
+      const match = text.match(/\d+(?:\.\d+)?/);
+      if (!match) return null;
+
+      const number = Number(match[0]);
+      return Number.isFinite(number) ? number : null;
+    }
+
     function buildPriceSentence(prefix, value) {
       const text = getText(value, "-");
       return isNumericPrice(text) ? `${prefix} ${text} 元` : `${prefix} ${text}`;
@@ -1283,6 +1824,13 @@
 
     function formatChoicePriceValue(value, unit) {
       const text = getText(value, "-");
+      const compoundMatch = String(text).trim().match(/^(\d+(?:\.\d+)?)(?:\s*[（(]([^）)]+)[）)])$/);
+
+      if (compoundMatch) {
+        const [, mainValue, subnote] = compoundMatch;
+        return `<span class="big">${escapeHtml(mainValue)}</span><span class="yuan">${escapeHtml(unit)}</span><span class="subnote">（${escapeHtml(subnote)}）</span>`;
+      }
+
       if (!isNumericPrice(text)) {
         return `<span class="big" style="font-size: clamp(24px, 2.2vw, 36px); line-height: 1.2; letter-spacing: 0; text-align: center;">${escapeHtml(text)}</span>`;
       }
@@ -1290,12 +1838,16 @@
       return `<span class="big">${escapeHtml(text)}</span><span class="yuan">${escapeHtml(unit)}</span>`;
     }
 
+    function hasChoicePriceSubnote(value) {
+      return /^(\d+(?:\.\d+)?)(?:\s*[（(][^）)]+[）)])$/.test(String(value || "").trim());
+    }
+
     function isNumericPrice(value) {
       return /^\d+(?:\.\d+)?$/.test(String(value || "").trim());
     }
 
     function emphasizeNumbers(text) {
-      return escapeHtml(text).replace(/(\d+(?:\.\d+)?)/g, '<span class="num">$1</span>');
+      return escapeHtml(text).replace(/(\d+(?:\.\d+)?)\s*元/g, '<span class="num-unit"><span class="num">$1</span>元</span>');
     }
 
     function getText(value, fallback) {
@@ -1313,6 +1865,47 @@
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+    }
+
+    async function downloadCurrentPageImage() {
+      const button = document.getElementById("downloadPosterBtn");
+      const previousText = button.textContent;
+
+      if (!window.html2canvas) {
+        alert("下载组件加载失败，请稍后刷新页面重试。");
+        return;
+      }
+
+      try {
+        button.disabled = true;
+        button.textContent = "图片生成中...";
+
+        const canvas = await window.html2canvas(document.querySelector(".poster"), {
+          backgroundColor: "#eef7ff",
+          scale: Math.min(window.devicePixelRatio || 1.5, 2),
+          useCORS: true,
+          logging: false,
+          onclone: (clonedDocument) => {
+            clonedDocument.body.classList.add("exporting");
+            const poster = clonedDocument.querySelector(".poster");
+            if (poster) {
+              poster.classList.add("export-capture");
+            }
+          },
+          ignoreElements: (element) => element.hasAttribute("data-download-ignore"),
+        });
+
+        const link = document.createElement("a");
+        link.href = canvas.toDataURL("image/png");
+        link.download = `有道领世-${currentGrade}-竞品对比页.png`;
+        link.click();
+      } catch (error) {
+        console.error(error);
+        alert("图片生成失败，请稍后重试。");
+      } finally {
+        button.disabled = false;
+        button.textContent = previousText;
+      }
     }
   </script>
 </body>
