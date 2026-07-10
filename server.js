@@ -56,6 +56,8 @@ const productAliases = {
   sortOrder: ["sort_order", "排序", "顺序"],
 };
 
+const normalizedKnownProductFieldNames = buildAliasSet(productAliases);
+
 const blockAliases = {
   grade: ["grade", "年级"],
   key: ["block_key", "模块标识", "模块", "key"],
@@ -90,8 +92,7 @@ app.get("/api/competitor", async (request, response) => {
 
     const products = productRecords
       .map((record, index) => normalizeProduct(record, index))
-      .filter((product) => product.grade === grade)
-      .sort(bySortOrder);
+      .filter((product) => product.grade === grade);
 
     const advantageBlocks = blockRecords
       .map((record, index) => normalizeAdvantageBlock(record, index))
@@ -187,6 +188,7 @@ async function fetchJson(url, options = {}) {
 function normalizeProduct(record, index) {
   const fields = record.fields || {};
   const brand = readField(fields, productAliases.brand);
+  const extraFields = collectExtraProductFields(fields);
 
   return {
     id: record.record_id || `product-${index}`,
@@ -206,6 +208,7 @@ function normalizeProduct(record, index) {
     badge: readField(fields, productAliases.badge),
     contentBadge: readField(fields, productAliases.contentBadge),
     sortOrder: parseSortOrder(readRawField(fields, productAliases.sortOrder), index),
+    extraFields,
   };
 }
 
@@ -313,6 +316,36 @@ function normalizeFieldName(value) {
     .replace(/[·]/g, "")
     .replace(/[，,]/g, "")
     .replace(/[。.\-—_]/g, "");
+}
+
+function buildAliasSet(aliasMap) {
+  return new Set(
+    Object.values(aliasMap)
+      .flat()
+      .map(normalizeFieldName)
+      .filter(Boolean)
+  );
+}
+
+function collectExtraProductFields(fields) {
+  return Object.entries(fields).flatMap(([fieldName, rawValue], index) => {
+    const normalizedField = normalizeFieldName(fieldName);
+    if (!normalizedField || normalizedKnownProductFieldNames.has(normalizedField)) {
+      return [];
+    }
+
+    const value = normalizeValue(rawValue);
+    if (!value) {
+      return [];
+    }
+
+    return [{
+      key: `extra:${normalizedField}`,
+      label: String(fieldName || "").trim(),
+      value,
+      sortOrder: index,
+    }];
+  });
 }
 
 function normalizeList(value) {
