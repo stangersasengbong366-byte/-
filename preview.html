@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>各家高中产品性价比对比分析</title>
+  <title>各家高中产品性价比分析</title>
   <style>
     :root {
       --blue: #1765f5;
@@ -1204,7 +1204,7 @@
         <div class="page-tools" data-download-ignore>
           <button type="button" class="download-btn" id="downloadPosterBtn">下载本页图片</button>
         </div>
-        <h1><span class="grade" id="pageGrade">【新高一】</span>各家高中产品性价比对比分析</h1>
+        <h1><span class="grade" id="pageGrade">【新高一】</span>各家高中产品性价比分析</h1>
         <div class="subtitle"><span id="subtitleText">价格更优 · 内容更全 · 学习闭环更完整</span><span class="dot"></span></div>
       </header>
 
@@ -1218,7 +1218,6 @@
           </table>
         </section>
 
-        <div class="note"><span class="info">i</span><span id="noteText"></span></div>
 
         <section class="module-layout">
           <div class="left-stack">
@@ -1451,7 +1450,7 @@
           title: "价格优势",
           headline: `单科每课时 ${singlePrice} 元，\n3科联报每课时仅 ${comboPrice} 元；`,
           items: [
-            "在主流竞品中兼顾价格优势与内容完整度；",
+            "兼顾价格优势与内容完整度；",
             `不仅有直播，更额外配备${videoCount}节知识视频。`,
           ],
         }),
@@ -1591,7 +1590,9 @@
     }
 
     function renderNote(block) {
-      document.getElementById("noteText").textContent = getText(block?.description || block?.headline, "");
+      const noteText = document.getElementById("noteText");
+      if (!noteText) return;
+      noteText.textContent = getText(block?.description || block?.headline, "");
     }
 
     function renderComposition(block = {}) {
@@ -1897,7 +1898,7 @@
 
         const link = document.createElement("a");
         link.href = canvas.toDataURL("image/png");
-        link.download = `有道领世-${currentGrade}-竞品对比页.png`;
+        link.download = `有道领世-${currentGrade}-产品性价比分析页.png`;
         link.click();
       } catch (error) {
         console.error(error);
